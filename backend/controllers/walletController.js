@@ -3,7 +3,7 @@ const database = require('../database');
 
 // @desc    Get wallet balance
 // @route   GET /wallets/:id/balance
-// @access  Public
+// @access  Private
 exports.getWalletBalance = async (req, res) =>{
     const walletId = req.params.id;
 
@@ -66,5 +66,53 @@ exports.createWallet = async (req, res) =>{
     } catch (error) {
         console.log(error)
         res.status(500).json({ error: 'Failed to create wallet' });
+    }
+}
+
+// @desc    Get all wallets for a user
+// @route   GET /wallets
+// @access  Private
+exports.getWallets = async (req, res) =>{
+    const user_id = req.user.id
+    try {
+        const result = await database.pool.query({
+            text: `SELECT w.id, w.name, w.type
+                   FROM wallets w
+                   JOIN wallet_users wu ON w.id = wu.wallet_id
+                     WHERE wu.user_id = $1`,
+            values: [user_id]
+        })
+        res.json(result.rows);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch wallets' });
+    }
+}
+
+// @desc    Add user to a wallet
+// @route   POST /wallets/:id/users
+// @access  Private
+exports.addUserToWallet = async (req, res) =>{
+    const walletId = req.params.id;
+    const {user_id, role} = req.body;
+    if(!user_id || !role){
+        return res.status(400).json({ error: 'User ID and Role are required' });
+    }
+    try {
+        // Check if wallet exists
+        const walletCheck = await database.pool.query({
+            text: 'SELECT * FROM wallets WHERE id = $1',
+            values: [walletId]
+        })
+        if(walletCheck.rowCount === 0){
+            return res.status(404).json({ error: 'Wallet not found' });
+        }
+        // Add user to wallet
+        await database.pool.query({
+            text: 'INSERT INTO wallet_users (wallet_id, user_id, role) VALUES ($1, $2, $3)',
+            values: [walletId, user_id, role]
+        })
+        res.status(200).json({message: 'User added to wallet successfully'})
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to add user to wallet' });
     }
 }
