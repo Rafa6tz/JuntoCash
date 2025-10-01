@@ -6,13 +6,17 @@ import Login from "./pages/Login"
 import Transaction from "./pages/Transaction"
 import Graph from "./pages/Graph"
 import Goal from "./pages/Goal"
+import WalletNav from "./components/WalletNav"
 
 
 function App() {
+
+  const newWalletId = null
   
   return (
     <>
     <BrowserRouter>
+      <WalletNav/>
       <Nav/>
       <Routes>
         <Route path="/" element={<Wallet/>}/>

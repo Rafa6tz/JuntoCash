@@ -4,6 +4,7 @@ import walletService from "./walletService";
 const initialState = {
     wallets: [],
     balance: 0,
+    selectedWallet: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -50,6 +51,9 @@ export const walletSlice = createSlice({
     name: 'wallet',
     initialState,
     reducers: {
+        setSelectedWallet: (state, action) => {
+            state.selectedWallet = action.payload
+        },
         reset: (state) => {
             state.isLoading = false
             state.isError = false
@@ -90,5 +94,5 @@ export const walletSlice = createSlice({
     }
 })
 
-export const { reset } = walletSlice.actions
+export const { reset, setSelectedWallet } = walletSlice.actions
 export default walletSlice.reducer

@@ -1,22 +1,19 @@
-import React, { use, useEffect } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { getWalletBalance, getWallets } from '../features/wallet/walletSlice'
+import { getWalletBalance } from '../features/wallet/walletSlice'
 import { Card } from '@/components/ui/card'
 
 const Wallet = () => {
-  const {wallets, balance, isLoading, isError, message} = useSelector((state) => state.wallet)
+  const {wallets, selectedWallet, balance, isLoading, isError, message} = useSelector((state) => state.wallet)
 
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
 
   useEffect(() => {
-    dispatch(getWallets())
-  }, [dispatch])
-
-  useEffect(() => {
-    dispatch(getWalletBalance("795fe0c6-14d3-491c-8a4e-65ea6b04480b"))
-  }, [dispatch])
+    if (selectedWallet){
+      dispatch(getWalletBalance(selectedWallet))
+    }
+  }, [dispatch, selectedWallet])
 
   return (
     <section className='flex flex-col gap-6 items-center bg-background min-h-screen'>
@@ -28,13 +25,6 @@ const Wallet = () => {
     </p>
     </div>
     </Card>
-    <select>
-      {wallets.map((wallet) => (
-        <option key={wallet.id} value={wallet.id}>
-          {wallet.name}
-        </option>
-      ))}
-    </select>
     </section>
       
   )
