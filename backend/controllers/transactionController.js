@@ -46,9 +46,9 @@ exports.createTransaction = async (req, res) => {
         }
 
         const result = await database.pool.query({
-            text: `INSERT INTO transactions (wallet_id, category_id, type, amount, description)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-            values: [wallet_id, category_id, type, amount, description || null]
+            text: `INSERT INTO transactions (wallet_id, category_id, type, amount, description, user_id)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+            values: [wallet_id, category_id, type, amount, description || null, user_id]
         })
 
         res.status(201).json({message: 'Transaction created successfully', transaction: result.rows[0]});
