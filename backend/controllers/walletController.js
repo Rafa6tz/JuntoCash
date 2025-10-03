@@ -41,33 +41,62 @@ exports.getWalletBalance = async (req, res) =>{
 // @desc    Create a new wallet
 // @route   POST /wallets
 // @access  Public
-exports.createWallet = async (req, res) =>{
-    const {name} = req.body;
-    const user_id = req.user.id
+exports.createWallet = async (req, res) => {
+    const { name } = req.body;
+    const user_id = req.user.id;
 
-    if(!name || !user_id){
+    if (!name || !user_id) {
         return res.status(400).json({ error: 'Name and User ID are required' });
     }
 
     try {
+        // Cria a wallet
         const walletResult = await database.pool.query({
-            text: 'INSERT INTO wallets (name, type) VALUES ($1, $2) RETURNING *',
+            text: `INSERT INTO wallets (name, type) VALUES ($1, $2) RETURNING *`,
             values: [name, 'individual']
-        })
+        });
 
         const wallet_id = walletResult.rows[0].id;
 
+        // Relaciona usuário criador como owner
         await database.pool.query({
             text: 'INSERT INTO wallet_users (wallet_id, user_id, role) VALUES ($1, $2, $3)',
             values: [wallet_id, user_id, 'owner']
-        })
-        res.status(201).json({message: 'Wallet created successfully', wallet: walletResult.rows[0]
-        })
+        });
+
+        // Categorias padrão
+        const defaultExpenses = ['Mercado', 'Lazer', 'Transporte', 'Moradia', 'Saúde'];
+        const defaultIncomes = ['Salário', 'Pix'];
+
+        const values = [];
+
+        defaultExpenses.forEach(cat => {
+            values.push([wallet_id, 'expense', cat]);
+        });
+        defaultIncomes.forEach(cat => {
+            values.push([wallet_id, 'income', cat]);
+        });
+
+        // Query dinâmica para inserir várias categorias
+        const insertQuery = `
+            INSERT INTO categories (wallet_id, type, name)
+            VALUES ${values.map((_, i) => 
+                `($${i*3+1}, $${i*3+2}, $${i*3+3})`
+            ).join(', ')}
+        `;
+
+        await database.pool.query(insertQuery, values.flat());
+
+        res.status(201).json({
+            message: 'Wallet created successfully with default categories',
+            wallet: walletResult.rows[0]
+        });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({ error: 'Failed to create wallet' });
     }
-}
+};
+
 
 // @desc    Get all wallets for a user
 // @route   GET /wallets
