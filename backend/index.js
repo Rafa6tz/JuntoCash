@@ -14,6 +14,7 @@ app.use(require('./routes/userRoute'))
 
 app.use('/wallets', require('./routes/walletRoute'))
 app.use('/wallets', require('./routes/transactionRoute'))
+app.use('/categories', require('./routes/categorieRoute'))
 
 app.listen(5000, () => {
     console.log('Server is running on port 5000');
