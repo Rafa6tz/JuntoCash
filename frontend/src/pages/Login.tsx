@@ -18,6 +18,7 @@ const Login = () => {
   const navigate = useNavigate()
 
   const {user, isLoading, isError, isSuccess, message} = useSelector((state) => state.auth)
+  const { selectedWallet} = useSelector((state) => state.wallet)
 
   useEffect(() => {
     if(isError){
@@ -25,7 +26,6 @@ const Login = () => {
     }
     if(isSuccess || user){
       dispatch(getWallets())
-      dispatch(getWalletBalance())
       navigate('/')
     }
     dispatch(reset())

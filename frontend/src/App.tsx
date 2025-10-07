@@ -7,6 +7,7 @@ import Transaction from "./pages/Transaction"
 import Graph from "./pages/Graph"
 import Goal from "./pages/Goal"
 import WalletNav from "./components/WalletNav"
+import PrivateRoute from "./components/PrivateRoute"
 
 
 function App() {
@@ -18,7 +19,9 @@ function App() {
       <WalletNav/>
       <Nav/>
       <Routes>
-        <Route path="/" element={<Wallet/>}/>
+        <Route path="/" element={<PrivateRoute/>}>
+        <Route index element={<Wallet/>}/>
+        </Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/transaction" element={<Transaction/>}/>

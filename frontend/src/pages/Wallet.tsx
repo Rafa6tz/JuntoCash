@@ -10,8 +10,8 @@ const Wallet = () => {
 
 
   useEffect(() => {
-    if (selectedWallet){
-      dispatch(getWalletBalance(selectedWallet))
+    if (selectedWallet?.id){
+      dispatch(getWalletBalance(selectedWallet.id))
     }
   }, [dispatch, selectedWallet])
 
