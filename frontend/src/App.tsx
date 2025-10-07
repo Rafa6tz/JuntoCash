@@ -24,9 +24,15 @@ function App() {
         </Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/transaction" element={<Transaction/>}/>
-        <Route path="/graphs" element={<Graph/>}/>
-        <Route path="/goal" element={<Goal/>}/>
+        <Route path="/transaction" element={<PrivateRoute/>}>
+        <Route index element={<Transaction/>}/>
+        </Route>
+        <Route path="/graphs" element={<PrivateRoute/>}>
+        <Route index element={<Graph/>}/>
+        </Route>
+        <Route path="/goal" element={<PrivateRoute/>}>
+        <Route index element={<Goal/>}/>
+        </Route>
       </Routes>
     </BrowserRouter>
     </>
