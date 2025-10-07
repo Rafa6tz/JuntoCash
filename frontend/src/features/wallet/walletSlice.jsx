@@ -84,6 +84,10 @@ export const walletSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.wallets = action.payload
+
+                if(action.payload.length > 0 && !state.selectedWallet) {
+                    state.selectedWallet = action.payload[0]
+                }
             })
             .addCase(getWallets.rejected, (state, action) => {
                 state.isLoading = false

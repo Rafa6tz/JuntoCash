@@ -60,8 +60,8 @@ const Register = () => {
   }
 
   return (
-    <div className='bg-background flex justify-center h-screen'>
-    <Card className='w-5/6 max-h-5/7 bg-card text-card-foreground mt-6'>
+    <div className='bg-background flex justify-center min-h-screen pt-20'>
+    <Card className='w-5/6 bg-card text-card-foreground text-sm mt-6 gap-0'>
       <CardHeader>
         <CardTitle>Register Page</CardTitle>
         <CardDescription>Register an user to start</CardDescription>

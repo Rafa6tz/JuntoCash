@@ -16,11 +16,11 @@ const Wallet = () => {
   }, [dispatch, selectedWallet])
 
   return (
-    <section className='flex flex-col gap-6 items-center bg-background min-h-screen'>
-    <Card className='w-5/6 max-h-4/7 bg-green-100 text-card-foreground mt-8 shadow-2xl flex items-center justify-center font-bold text-2xl border-background'>
+    <section className='flex flex-col gap-6 items-center bg-background min-h-screen pt-24'>
+    <Card className='w-5/6 max-h-4/7 bg-green-100 text-card-foreground mt-8 shadow-2xl flex items-center justify-center text-2xl border-background'>
     <div className='flex flex-col items-center justify-center'>
-    <h4>Saldo</h4>
-    <p>
+    <h4 className='text-lg'>Saldo</h4>
+    <p className='text-3xl font-bold'>
       R$ {balance}
     </p>
     </div>

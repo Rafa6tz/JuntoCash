@@ -11,7 +11,6 @@ import WalletNav from "./components/WalletNav"
 
 function App() {
 
-  const newWalletId = null
   
   return (
     <>

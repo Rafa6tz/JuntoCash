@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { login, reset } from '../features/auth/authSlice.jsx'
+import { getWallets, getWalletBalance } from '../features/wallet/walletSlice.jsx'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,8 @@ const Login = () => {
       console.log(message)
     }
     if(isSuccess || user){
+      dispatch(getWallets())
+      dispatch(getWalletBalance())
       navigate('/')
     }
     dispatch(reset())
@@ -46,8 +49,8 @@ const Login = () => {
   }
 
   return (
-    <div className='bg-background flex justify-center h-screen'>
-    <Card className='w-5/6 max-h-4/7 bg-card text-card-foreground mt-16'>
+    <section className='bg-background flex justify-center min-h-screen pt-14'>
+    <Card className='w-5/6 h-4/7 bg-card text-card-foreground mt-16'>
       <CardHeader>
         <CardTitle>Login Page</CardTitle>
         <CardDescription>Entre para controlar suas finanças!</CardDescription>
@@ -63,7 +66,7 @@ const Login = () => {
         </form>
       </CardContent>
     </Card>
-    </div>
+    </section>
   )
 }
 
