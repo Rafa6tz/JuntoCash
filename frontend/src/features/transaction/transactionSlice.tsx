@@ -16,8 +16,8 @@ export const createTransaction = createAsyncThunk(
         try {
             const state = thunkAPI.getState();
             const token = state.auth.user.token;
-            const selectedWallet = state.wallets.selectedWallet;
-            return await transactionService.createTransaction(transactionData, selectedWallet, token);
+            const selectedWallet = state.wallet.selectedWallet;
+            return await transactionService.createTransaction(transactionData, selectedWallet.id, token);
         } catch (error) {
             const message =
                 (error.response &&

@@ -9,7 +9,7 @@ const getIncomeCategories = async (walledId, token) => {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.get(API_URL + `${walledId}/income`, token)
+    const response = await axios.get(API_URL + `${walledId}/income`, config)
     return response.data
 }
 
@@ -20,7 +20,7 @@ const getExpenseCategories = async (walledId, token) => {
             Authorization: `Bearer ${token}`,
         },
     }
-    const response = await axios.get(API_URL + `${walledId}/expense`, token)
+    const response = await axios.get(API_URL + `${walledId}/expense`, config)
     return response.data
 }
 
