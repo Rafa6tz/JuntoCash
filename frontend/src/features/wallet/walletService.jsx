@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:5000/wallets/'
+const API_URL = 'https://juntocash-1.onrender.com/wallets/'
 
 //Get wallet balance
 const getWalletBalance = async(walletId, token) => {
@@ -9,6 +9,7 @@ const getWalletBalance = async(walletId, token) => {
       Authorization: `Bearer ${token}`,
     },
   }
+  
     const response = await axios.get(API_URL + `${walletId}/balance`, config)
     return response.data
 }

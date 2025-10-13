@@ -8,7 +8,7 @@ const createTransaction = async (transactionData, walletId, token) => {
             Authorization: `Bearer ${token}`,
         },
     };
-    const response = await axios.post(`http://localhost:5000/wallets/${walletId}/transactions`, transactionData, config);
+    const response = await axios.post(`https://juntocash-1.onrender.com/wallets/${walletId}/transactions`, transactionData, config);
 
     return response.data;
 }
