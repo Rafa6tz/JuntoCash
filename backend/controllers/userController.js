@@ -2,7 +2,8 @@ const database = require('../database');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const SECRET = '1234'
+
+const SECRET = process.env.SECRET
 
 exports.registerUser = async (req, res) =>{
     const {name, email, password} = req.body;
@@ -37,7 +38,7 @@ exports.loginUser = async (req, res) =>{
         return res.status(401).json({ error: 'Invalid password'})
     }
 
-    const token = jwt.sign({id: user.id}, SECRET, {expiresIn: '1h'})
+    const token = jwt.sign({id: user.id}, SECRET, {expiresIn: '100h'})
     res.json({message: 'Login successful', token});
 }
 
