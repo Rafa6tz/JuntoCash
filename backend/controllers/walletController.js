@@ -122,12 +122,11 @@ exports.getWallets = async (req, res) =>{
 // @access  Private
 exports.addUserToWallet = async (req, res) =>{
     const walletId = req.params.id;
-    const {user_id, role} = req.body;
-    if(!user_id || !role){
-        return res.status(400).json({ error: 'User ID and Role are required' });
+    const {user_id} = req.body;
+    if(!user_id){
+        return res.status(400).json({ error: 'User ID are required' });
     }
     try {
-        // Check if wallet exists
         const walletCheck = await database.pool.query({
             text: 'SELECT * FROM wallets WHERE id = $1',
             values: [walletId]
@@ -135,10 +134,10 @@ exports.addUserToWallet = async (req, res) =>{
         if(walletCheck.rowCount === 0){
             return res.status(404).json({ error: 'Wallet not found' });
         }
-        // Add user to wallet
+        // Adiciona user na wallet
         await database.pool.query({
             text: 'INSERT INTO wallet_users (wallet_id, user_id, role) VALUES ($1, $2, $3)',
-            values: [walletId, user_id, role]
+            values: [walletId, user_id, 'member']
         })
         res.status(200).json({message: 'User added to wallet successfully'})
     } catch (error) {

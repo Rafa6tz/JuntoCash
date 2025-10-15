@@ -27,6 +27,36 @@ exports.getAllTransactions = async (req, res) => {
     }
 }
 
+exports.getMonthTransactions = async (req, res) =>{
+    const walletId = req.params.walletId;
+    const user_id = req.user.id;
+    
+    try {
+        const checkAcess = await database.pool.query({
+            text: `SELECT 1 FROM wallet_users WHERE wallet_id = $1 AND user_id = $2`,
+            values: [walletId, user_id]
+        })
+        if(checkAcess.rowCount === 0){
+            return res.status(403).json({ error: 'Access denied to this wallet' });
+        }
+    const result = await database.pool.query({
+        text: `SELECT 
+    DATE_TRUNC('month', t.created_at) AS month,
+    SUM(CASE WHEN t.type = 'income' THEN t.amount ELSE 0 END) AS total_income,
+    SUM(CASE WHEN t.type = 'expense' THEN t.amount ELSE 0 END) AS total_expense
+FROM transactions t
+WHERE t.wallet_id = $1
+GROUP BY month
+ORDER BY month;
+`,
+values: [walletId]
+    })
+    res.json(result.rows)
+}catch (error) {
+        res.status(500).json({ error: 'Failed to fetch transactions' });
+    }
+}
+
 exports.createTransaction = async (req, res) => {
     const { category_id, type, amount, description} = req.body;
     const wallet_id = req.params.walletId;
