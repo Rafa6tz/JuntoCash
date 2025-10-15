@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import walletService from "./walletService";
+import { handleUnauthorized } from "../auth/authSlice";
 
 const initialState = {
     wallets: [],
@@ -36,6 +37,7 @@ export const getWallets = createAsyncThunk('wallet/getWallets', async(_, thunkAP
         const token = state.auth.user.token
         return await walletService.getWallets(token)
     } catch (error) {
+        handleUnauthorized(error, thunkAPI)
         const message = (
             error.response &&
             error.response.data &&

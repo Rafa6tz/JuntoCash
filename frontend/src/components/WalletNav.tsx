@@ -5,6 +5,7 @@ import { FaWallet } from 'react-icons/fa'
 
 const WalletNav = () => {
     const {wallets, selectedWallet} = useSelector((state) => state.wallet)
+    const {user} = useSelector((state) => state.auth)
       const dispatch = useDispatch()
     
       useEffect(() => {
@@ -37,7 +38,7 @@ const WalletNav = () => {
       <h2 className='font-bold text-lg'>Junto</h2>
       <h2 className='font-light text-lg'>Cash</h2>
       </div>
-      <div className='flex px-4 gap-x-10 items-center'>
+      {user && <div className='flex px-4 gap-x-10 items-center'>
       <div className='flex w-24 flex-col items-center bg-secondary rounded-xl p-2 font-semibold'>
         <p className='flex justify-center items-center gap-1 overflow-hidden'><FaWallet/>Wallet:</p>
       <select className='w-full' onChange={handleChange}>
@@ -49,7 +50,8 @@ const WalletNav = () => {
     </select>
       </div>
       <p>Mês:</p>
-      </div>
+      </div>}
+      
     </nav>
   )
 }

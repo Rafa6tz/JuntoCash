@@ -51,6 +51,13 @@ export const logout = createAsyncThunk('auth/logout', async() => {
     await authService.logout()
 })
 
+//Automatic logout when token expires
+export const handleUnauthorized = (error, thunkAPI) => {
+    if(error.response && error.response.status === 401){
+        thunkAPI.dispatch(logout())
+    }
+}
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState,

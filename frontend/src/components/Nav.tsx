@@ -13,7 +13,7 @@ const Nav = () => {
           <FaPlus size={28}/>
         </div></Link>
         <Link to="/goal" className='flex flex-col items-center justify-center gap-2 hover:bg-blue-300 rounded-xl h-14 w-16'><LuLightbulb/><span className='text-xs'>Goal</span></Link>
-        <Link to="/login" className='flex flex-col items-center justify-center gap-2 hover:bg-blue-300 rounded-xl h-14 w-16'><LuUser/><span className='text-xs'>User</span></Link>
+        <Link to="/profile" className='flex flex-col items-center justify-center gap-2 hover:bg-blue-300 rounded-xl h-14 w-16'><LuUser/><span className='text-xs'>User</span></Link>
     </nav>
   )
 }

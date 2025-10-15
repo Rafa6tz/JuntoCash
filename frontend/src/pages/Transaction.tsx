@@ -95,6 +95,7 @@
     value={formData.category_id}
     className="p-2 border border-gray-300 rounded bg-white w-full focus:outline-none focus:border-ring focus:ring-2 focus:ring-ring"
 >
+    <option value="" disabled>Selecione uma categoria</option>
   {expenseCategories.map((categorie) => (
     <option key={categorie.id} value={categorie.id}>
       {categorie.name}

@@ -49,6 +49,12 @@ const Login = () => {
   }
 
   return (
+    <>
+    {spinner && (
+      <div className='absolute h-full w-full flex justify-center items-center'>
+        <Spinner className='size-8'/>
+      </div>
+    )}
     <section className='bg-background flex justify-center min-h-screen pt-14'>
     <Card className='w-5/6 h-4/7 bg-card text-card-foreground mt-16'>
       <CardHeader>
@@ -67,6 +73,7 @@ const Login = () => {
       </CardContent>
     </Card>
     </section>
+    </>
   )
 }
 
